@@ -15,7 +15,7 @@ Create a new LoggingConfiguration in the editor
 
 Configure Logging Level and set enabled/disabled as required
 
-![plot](images/configure_logging.png)
+![plot](.images/configure_logging.png)
 
 Log messages as desired
 

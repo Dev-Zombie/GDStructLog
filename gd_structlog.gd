@@ -1,43 +1,46 @@
 extends Node
-class_name Logger
+class_name GdStructlog
 
-var handlers: Array[LogHandler] = []
 var logging_config: LoggingConfiguration
+var processors: Array[LogProcessor] = []
+var context_data: Dictionary        = {}
 var scene_root: Node
-var context_data: Dictionary    = {}
 
 
 func _init(_logging_config: LoggingConfiguration, _scene_root: Node):
     logging_config = _logging_config
     scene_root = _scene_root
-    handlers.append(ConsoleHandler.new())
+    processors.append(ConsoleRenderer.new())
 
 
-func log_msg(message: String, log_level: LoggingConfiguration.LogLevel, data: Dictionary = {}):
+func log_msg(event: String, log_level: LoggingConfiguration.LogLevel, data: Dictionary = {}):
     if logging_config.logging_enabled == false:
         return
     if log_level < logging_config.log_level:
         return
     if logging_config.log_scene_root:
         data["scene_root"] = scene_root.name
-    for handler in handlers:
-        handler.emit(get_current_datetime(), log_level, message, data)
+
+    data['event'] = event
+    data.merge(context_data)
+    for process in processors:
+        process.process(log_level, data)
 
 
-func debug(message: String, data: Dictionary = {}):
-    log_msg(message, LoggingConfiguration.LogLevel.DEBUG, data)
+func debug(event: String, data: Dictionary = {}):
+    log_msg(event, LoggingConfiguration.LogLevel.DEBUG, data)
 
 
-func info(message: String, data: Dictionary = {}):
-    log_msg(message, LoggingConfiguration.LogLevel.INFO, data)
+func info(event: String, data: Dictionary = {}):
+    log_msg(event, LoggingConfiguration.LogLevel.INFO, data)
 
 
-func warning(message: String, data: Dictionary = {}):
-    log_msg(message, LoggingConfiguration.LogLevel.WARNING, data)
+func warning(event: String, data: Dictionary = {}):
+    log_msg(event, LoggingConfiguration.LogLevel.WARNING, data)
 
 
-func error(message: String, data: Dictionary = {}):
-    log_msg(message, LoggingConfiguration.LogLevel.ERROR, data)
+func error(event: String, data: Dictionary = {}):
+    log_msg(event, LoggingConfiguration.LogLevel.ERROR, data)
 
 
 func get_current_datetime() -> String:
@@ -46,7 +49,7 @@ func get_current_datetime() -> String:
 
 
 # method to find closest the logger in the scene tree
-static func get_logger(node: Node) -> Logger:
+static func get_logger(node: Node) -> GdStructlog:
     node = node.get_parent()
     while node:
         var props = node.get_property_list()
@@ -61,4 +64,4 @@ static func get_logger(node: Node) -> Logger:
     var logging_config: LoggingConfiguration = LoggingConfiguration.new()
     logging_config.log_level = LoggingConfiguration.LogLevel.DEBUG
     logging_config.logging_enabled = true
-    return Logger.new(logging_config, node)
+    return GdStructlog.new(logging_config, node)
