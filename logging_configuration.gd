@@ -8,13 +8,13 @@ enum LogLevel { DEBUG, INFO, WARNING, ERROR }
 
 
 static func get_log_level_string(log_level: LoggingConfiguration.LogLevel) -> String:
-    match log_level:
-        LoggingConfiguration.LogLevel.DEBUG:
-            return "DEBUG  "
-        LoggingConfiguration.LogLevel.INFO:
-            return "INFO   "
-        LoggingConfiguration.LogLevel.WARNING:
-            return "WARNING"
-        LoggingConfiguration.LogLevel.ERROR:
-            return "ERROR  "
-    return "UNKNOWN LOG LEVEL"
+	match log_level:
+		LoggingConfiguration.LogLevel.DEBUG:
+			return "DEBUG  "
+		LoggingConfiguration.LogLevel.INFO:
+			return "INFO   "
+		LoggingConfiguration.LogLevel.WARNING:
+			return "WARNING"
+		LoggingConfiguration.LogLevel.ERROR:
+			return "ERROR  "
+	return "UNKNOWN LOG LEVEL"

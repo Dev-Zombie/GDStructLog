@@ -1,15 +1,15 @@
-extends Node
+#extends Node
 class_name GdStructlog
 
 var logging_config: LoggingConfiguration
 var processors: Array[LogProcessor] = []
 var context_data: Dictionary        = {}
-var scene_root: Node
+var root_node: Node
 
 
-func _init(_logging_config: LoggingConfiguration, _scene_root: Node):
+func _init(_logging_config: LoggingConfiguration, _root_node: Node):
 	logging_config = _logging_config
-	scene_root = _scene_root
+	root_node = _root_node
 	processors.append(ConsoleRenderer.new())
 
 
@@ -18,9 +18,10 @@ func log_msg(event: String, log_level: LoggingConfiguration.LogLevel, data: Dict
 		return
 	if log_level < logging_config.log_level:
 		return
-	if logging_config.log_scene_root:
-		data["scene_root"] = scene_root.name
+#	if logging_config.log_scene_root:
+#		data["scene_root"] = scene_root.name
 
+	data["root_node"] = root_node.name
 	data['event'] = event
 	data.merge(context_data)
 	for process in processors:
@@ -55,7 +56,7 @@ static func get_logger(node: Node) -> GdStructlog:
 		var props = node.get_property_list()
 		var method = node.get_method_list()
 		for prop in props:
-			if prop['class_name'] == &"Logger":
+			if prop['class_name'] == &"GdStructlog":
 				if node[prop['name']] != null:
 					return node.get(prop["name"])
 		node = node.get_parent()
