@@ -12,21 +12,19 @@ func process(log_level: LoggingConfiguration.LogLevel, event_dict: Dictionary) -
 		var date_time: String = data['date_time']
 		data.erase('date_time')
 		prefix = "%s " % date_time
-	
-		
 
 	prefix = prefix + "[" + log_level_name + "]"
-	
+
 	if data.has('root_node'):
 		prefix +=  "[" + data['root_node'] + "]"
 		data.erase('root_node')
-	
+
 	var log_message: String = data['event']
 	data.erase('event')
-	prefix += ": " + log_message 
+	prefix += ": " + log_message
 
 	for key in data.keys():
-		context_string += " %s=%s" % [key, str(data[key])]
+		context_string += " %s = %s" % [key, str(data[key])]
 
 	if event_dict == {}:
 		print(prefix)
