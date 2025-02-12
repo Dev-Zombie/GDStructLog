@@ -65,5 +65,5 @@ static func get_logger(node: Node) -> GdStructlog:
 	print("No logger found in the scene tree. Creating a new one.")
 	var logging_config: LoggingConfiguration = LoggingConfiguration.new()
 	logging_config.log_level = LoggingConfiguration.LogLevel.DEBUG
-	logging_config.logging_enabled = false
+	logging_config.logging_enabled = true
 	return GdStructlog.new(logging_config, node)
