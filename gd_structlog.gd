@@ -54,7 +54,7 @@ static func get_logger(node: Node) -> GdStructlog:
 	node = node.get_parent() as Node
 	while node:
 		var props = node.get_property_list()
-		var method = node.get_method_list()
+		# var method = node.get_method_list()
 		for prop in props:
 			if prop['class_name'] == &"GdStructlog":
 				if node[prop['name']] != null:
@@ -63,7 +63,7 @@ static func get_logger(node: Node) -> GdStructlog:
 
 	# If no logger is found, return a new logger enabled with debug
 	print("No logger found in the scene tree. Creating a new one.")
-	var logging_config: LoggingConfiguration = LoggingConfiguration.new()
-	logging_config.log_level = LoggingConfiguration.LogLevel.DEBUG
-	logging_config.logging_enabled = true
-	return GdStructlog.new(logging_config, node)
+	var _logging_config: LoggingConfiguration = LoggingConfiguration.new()
+	_logging_config.log_level = LoggingConfiguration.LogLevel.DEBUG
+	_logging_config.logging_enabled = true
+	return GdStructlog.new(_logging_config, node)

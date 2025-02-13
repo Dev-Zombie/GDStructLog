@@ -27,8 +27,8 @@ func process(log_level: LoggingConfiguration.LogLevel, event_dict: Dictionary) -
 		context_string += " %s = %s" % [key, str(data[key])]
 
 	if event_dict == {}:
-		print(prefix)
+		print(prefix, postfix)
 	else:
-		print("%s    | %s " % [prefix, context_string])
+		print("%s    | %s | %s" % [prefix, context_string, postfix])
 
 	return event_dict

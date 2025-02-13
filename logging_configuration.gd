@@ -7,8 +7,8 @@ enum LogLevel { DEBUG, INFO, WARNING, ERROR }
 @export var log_scene_root: bool = false
 
 
-static func get_log_level_string(log_level: LoggingConfiguration.LogLevel) -> String:
-	match log_level:
+static func get_log_level_string(_log_level: LoggingConfiguration.LogLevel) -> String:
+	match _log_level:
 		LoggingConfiguration.LogLevel.DEBUG:
 			return "DEBUG  "
 		LoggingConfiguration.LogLevel.INFO:
